@@ -69,7 +69,7 @@ Check out these related projects.
 ### Contributors
 
 |  [![Naveen Verma][naveen_avatar]][naveen_homepage]<br/>[Naveen Verma][naveen_homepage] |
-|---|---|
+|---|
 
   [naveen_homepage]: https://github.com/naveenverma023
   [naveen_avatar]: https://avatars2.githubusercontent.com/u/61639221?s=400&u=9da8629ea8c1cd634d3ea0dd46d0d97cf710a6e9&v=4
