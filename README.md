@@ -73,4 +73,4 @@ Check out these related projects.
 |---|
 
   [naveen_homepage]: https://github.com/naveenverma023
-  [naveen_avatar]: https://avatars2.githubusercontent.com/u/61639221?s=400&u=9da8629ea8c1cd634d3ea0dd46d0d97cf710a6e9&v=4
+  [naveen_avatar]: https://avatars2.githubusercontent.com/u/61639221?s=400&u=de7879e92ac9cff3d9ababff74c1b593d13302ca&v=4
