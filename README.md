@@ -63,9 +63,7 @@ Output
 
 ## Related Projects
 
-Check out these related projects.
-
-- [security_group](https://github.com/OT-CLOUD-KIT/terraform-aws-network-skeleton) - Terraform module for creating dynamic Security 
+Check out these related projects. 
 
 ### Contributors
 
