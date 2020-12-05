@@ -41,7 +41,7 @@ module "rgBastion" {
 
 ```
 
-```
+
 Tags
 ----
 * Tags are assigned to resources with name variable as prefix.
@@ -59,6 +59,7 @@ Output
 ------
 | Name | Description |
 |------|-------------|
+|op1 |value |
 
 ## Related Projects
 
