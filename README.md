@@ -24,7 +24,7 @@ Usage
 
 ```hcl
 module "rgBastion" {
-  source = "../Bastion"
+  source = "git::https://gitlab.com/ot-azure/terraform/bastion.git?ref=feature/readme"
   bastion_subnet_rg_name = module.azurerg.rgName
   bastion_subnet_vnet_name = module.azurevnet.vnet_name
   bastion_location = "eastus"
@@ -32,10 +32,8 @@ module "rgBastion" {
   bastion_rg_name = module.azurerg.rgName
   bastion_publicIp_Id = module.rgPublicIp.public_ip_id
   bastion_subnet_addr = [cidrsubnet(module.rgVnet.vnet_address[0], 8, 2)]
-  bastion_tag = "stage"
-
-  tags = {
-    key1 = "value1"
+  bastion_tag = {
+      env:"stage"
   }
 }
 

@@ -29,6 +29,6 @@ variable "bastion_publicIp_Id" {}
 variable "bastion_tag"{
     type = map(string)
     default = {
-	env:"dev"
+	env = "dev"
 	}
 }
