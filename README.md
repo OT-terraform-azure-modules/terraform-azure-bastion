@@ -8,7 +8,7 @@ Azure Bastion Host Terraform module
   [opstree_homepage]: https://opstree.github.io/
   [opstree_avatar]: https://img.cloudposse.com/150x150/https://github.com/opstree.png
 
-Terraform module which creates network skeleton on AWS.
+Terraform module which creates Azure Bastion.
 
 These types of resources are supported:
 
@@ -23,15 +23,14 @@ Usage
 ------
 
 ```hcl
-module "rgBastion" {
-  source = "git::https://gitlab.com/ot-azure/terraform/bastion.git?ref=feature/readme"
-  bastion_subnet_rg_name = module.azurerg.rgName
-  bastion_subnet_vnet_name = module.azurevnet.vnet_name
-  bastion_location = "eastus"
-  bastion_name = "otbastion"
-  bastion_rg_name = module.azurerg.rgName
-  bastion_publicIp_Id = module.rgPublicIp.public_ip_id
-  bastion_subnet_addr = [cidrsubnet(module.rgVnet.vnet_address[0], 8, 2)]
+module "bastion" {
+  source = "git::https://github.com/OT-terraform-azure-modules/terraform-azure-bastion.git"
+  bastion_rg_name = azurerm_resource_group.RG.name
+  bastion_subnet_addr = ["10.0.0.2/24"]
+  bastion_subnet_rg_name = azurerm_resource_group.RG.name
+  bastion_subnet_vnet_name = azurerm_virtual_network.terraformvnet.name
+  bastion_location = azurerm_resource_group.RG.location
+  bastion_publicIp_Id = azurerm_public_ip.example.id
   bastion_tag = {
       env:"stage"
   }
@@ -57,12 +56,13 @@ Output
 ------
 | Name | Description |
 |------|-------------|
-|op1 |value |
+|bastion_Id |ID of the bastion host |
 
 ## Related Projects
 
 Check out these related projects. 
-
+* [Bastion Implementation](https://github.com/naveenverma023/terraform-azure-bastion-setup/tree/feature/bastionImplementation)
+  
 ### Contributors
 
 |  [![Naveen Verma][naveen_avatar]][naveen_homepage]<br/>[Naveen Verma][naveen_homepage] |
