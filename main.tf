@@ -31,7 +31,6 @@ resource "azurerm_bastion_host" "TerraformBastion" {
     public_ip_address_id = azurerm_public_ip.TerraformBastionIp.id
   }
 
-  tag = {
-      Name = var.bastion_tag
-  }
+  tags = var.bastion_tag
+
 }
