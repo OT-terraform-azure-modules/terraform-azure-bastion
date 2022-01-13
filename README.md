@@ -1,72 +1,98 @@
-Azure Bastion Host Terraform module
+Azure Bastion Host Terraform Module
 =====================================
 
 [![Opstree Solutions][opstree_avatar]][opstree_homepage]
 
-[Opstree Solutions][opstree_homepage] 
+[Opstree Solutions][opstree_homepage]
 
   [opstree_homepage]: https://opstree.github.io/
   [opstree_avatar]: https://img.cloudposse.com/150x150/https://github.com/opstree.png
 
-Terraform module which creates Azure Bastion.
-
-These types of resources are supported:
-
-* [Bastion](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/bastion_host)
+Terraform module which creates Bastion Host on Azure .
 
 Terraform versions
 ------------------
+Terraform v0.15.4
 
-Terraform 0.13.
 
 Usage
 ------
 
 ```hcl
-module "bastion" {
-  source = "git::https://github.com/OT-terraform-azure-modules/terraform-azure-bastion.git"
-  bastion_rg_name = azurerm_resource_group.RG.name
-  bastion_subnet_addr = ["10.0.0.2/24"]
-  bastion_subnet_rg_name = azurerm_resource_group.RG.name
-  bastion_subnet_vnet_name = azurerm_virtual_network.terraformvnet.name
-  bastion_location = azurerm_resource_group.RG.location
-  bastion_publicIp_Id = azurerm_public_ip.example.id
-  bastion_tag = {
-      env:"stage"
+module "res_group" {
+  source                  = "git::https://github.com/OT-terraform-azure-modules/azure_resource_group.git"
+  resource_group_name     = "_"
+  resource_group_location = "_"
+  lock_level_value        = ""
+  tag_map = {
+    Name = "AzureResourceGroup"
   }
 }
 
+module "vnet" {
+  source        = "git::https://github.com/OT-terraform-azure-modules/terraform-azure-virtual-network.git"
+  rg_name       = module.res_group.resource_group_name
+  vnet_location = module.res_group.resource_group_location
+  address_space = ["_"]
+  vnet_name     = ""
+  dns_servers   = ["_", "_"]
+}
+
+module "bation_module" {
+  source                     = "git::https://github.com/OT-terraform-azure-modules/terraform-azure-bastion.git"
+  resource_group_name        = module.res_group.resource_group_name
+  resource_group_location    = module.res_group.resource_group_location
+  virtual_network_name       = module.vnet.vnet_name
+  bastion_subnet_addr_prefix = ["_"]
+  bastion_tags = {
+    tag1 = "value1"
+    tag2 = "value2"
+  }
+}
 ```
 
+Resources
+------
+| Name | Type |
+|------|------|
+| [azurerm_resource_group.rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_virtual_network.Vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
+| [azurerm_public_ip.IP](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/public_ip) | resource |
+| [azurerm_subnet.Bastion_Subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | resource |
+| [azurerm_bastion_host.Bastion_Host](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/bastion_host) | resource |
 
-Tags
-----
-* Tags are assigned to resources with name variable as prefix.
-* Additial tags can be assigned by tags variables as defined above.
 
 Inputs
 ------
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| bastion_name | Name of the bastion host | `string` | `"otbastion"` | no |
-| bastion_location | Location in which the Bastion host would be created | `string` | `"eastus"` | yes |
-| bastion_tag | tag to associate with te Bastion host | `string` | `"dev"` | no |
+| resource_group_name | Name of Resource Group | `string` |  | yes |
+| resource_group_location | Location where we want to implement code | `string` |  | yes |
+| vnet_name | The name of the virtual network. Changing this forces a new resource to be created. | `string` | | yes |
+| address_prefixes | The address space that is used by bastion host | `list(string)` | | yes |
+| bastion_Subnet | Create Subnet for Bastion Host | `string` | `AzureBastionSubnet` | no |
+| public_ip_Name | Create Public Ip of Bastion Resource | `string` | | yes |
+| ip_allocation_method | Need Ip address type | `string` | `"Static"` | no |
+| sku_type | Stock-keeping-Unit | `string` | `"Standard"` | no |
+| bastion_Host_Name | Name of Bastion Host | `string` | | yes |
+| bastion_Host_Location | location of bastion host | `string` | | yes |
+| bastion_tags | tags of bastion host | `map(string)` | | no |
+
 
 Output
 ------
 | Name | Description |
-|------|-------------|
-|bastion_Id |ID of the bastion host |
+|------|-------------|  
+| bastionhost_name | Name of bastion host |
+| bastionhost_subnet | Name of bastion host subnet |
+| bastionhost_subnetid | Bastion host subnet ID |
+| bastionhost_ip | Bastion Host Ip address |
 
-## Related Projects
 
-Check out these related projects. 
-* [Bastion Implementation](https://github.com/naveenverma023/terraform-azure-bastion-setup/tree/feature/bastionImplementation)
-  
 ### Contributors
 
-|  [![Naveen Verma][naveen_avatar]][naveen_homepage]<br/>[Naveen Verma][naveen_homepage] |
+|  [![Anant Chauhan][Anant_avatar]][Anant_homepage]<br/>[Anant Chauhan][Anant_homepage] |
 |---|
 
-  [naveen_homepage]: https://github.com/naveenverma023
-  [naveen_avatar]: https://avatars2.githubusercontent.com/u/61639221?s=400&u=de7879e92ac9cff3d9ababff74c1b593d13302ca&v=4
+  [anant_homepage]: https://gitlab.com/anant.chauhan1
+  [anant_avatar]: https://gitlab.com/uploads/-/system/user/avatar/9372704/avatar.png?width=400
